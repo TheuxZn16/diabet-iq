@@ -5,7 +5,7 @@ import theuxzn16.com.github.diabetiq.enums.TipoUsuario;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-public record UserResponseDTO(
+public record UsuarioResponseDTO(
         UUID id,
         String email,
         String nome,

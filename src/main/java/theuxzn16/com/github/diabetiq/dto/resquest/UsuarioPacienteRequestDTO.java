@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record UsuarioPacienteRequestDTO(
-
         @NotBlank(message = "O nome é obrigatório")
         @Size(min = 3, max = 150, message = "O nome deve ter entre 3 e 150 caracteres")
         String nome,
@@ -50,7 +49,7 @@ public record UsuarioPacienteRequestDTO(
         @NotNull(message = "A glicemia alvo máxima é obrigatória")
         @DecimalMax(value = "400.0", message = "A glicemia alvo máxima deve ser menor ou igual a 400")
         BigDecimal glicemiaAlvoMax
-) {
+)  {
 
         @AssertTrue(message = "A glicemia alvo máxima deve ser maior que a glicemia alvo mínima")
         public boolean isIntervaloGlicemiaValido() {
