@@ -9,15 +9,16 @@ import java.util.List;
 import java.util.UUID;
 
 public record PacienteReponseDTO(
-    UUID id,
-    LocalDate dataNascimento,
-    TipoDiabetes tipoDiabetes,
-    BigDecimal pesoKg,
-    BigDecimal alturaCm,
-    BigDecimal glicemiaAlvoMin,
-    BigDecimal glicemiaAlvoMax,
-    OffsetDateTime updatedAt,
-    OffsetDateTime createdAt,
-    List<MedicoPacienteResponseDTO> vinculos
+        UUID id,
+        LocalDate dataNascimento,
+        TipoDiabetes tipoDiabetes,
+        BigDecimal pesoKg,
+        BigDecimal alturaCm,
+        BigDecimal glicemiaAlvoMin,
+        BigDecimal glicemiaAlvoMax,
+        OffsetDateTime updatedAt,
+        OffsetDateTime createdAt,
+        UsuarioResponseDTO usuario,
+        List<MedicoPacienteResponseDTO> vinculos
 ) implements PerfilResponseDTO {
 }

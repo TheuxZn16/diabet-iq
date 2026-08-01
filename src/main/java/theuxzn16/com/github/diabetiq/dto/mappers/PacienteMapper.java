@@ -17,6 +17,7 @@ public class PacienteMapper {
                 paciente.getGlicemiaAlvoMax(),
                 paciente.getUpdatedAt(),
                 paciente.getCreatedAt(),
+                UsuarioMapper.toDto(paciente.getUsuario()),
                 MedicoPacienteMapper.toDtos(paciente.getVinculos())
         );
     }
