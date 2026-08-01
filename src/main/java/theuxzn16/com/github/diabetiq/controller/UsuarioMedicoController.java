@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import theuxzn16.com.github.diabetiq.dto.response.UsuarioResponseDTO;
 import theuxzn16.com.github.diabetiq.dto.resquest.UsuarioMedicoRequestDTO;
 import theuxzn16.com.github.diabetiq.service.UsuarioMedicoService;
 
@@ -20,7 +21,7 @@ public class UsuarioMedicoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody UsuarioMedicoRequestDTO body){
+    public ResponseEntity<UsuarioResponseDTO> create(@Valid @RequestBody UsuarioMedicoRequestDTO body){
         var response = service.create(body);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

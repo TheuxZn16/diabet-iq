@@ -1,7 +1,5 @@
 package theuxzn16.com.github.diabetiq.dto.response;
 
-import theuxzn16.com.github.diabetiq.entity.MedicoPaciente;
-
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -13,6 +11,7 @@ public record MedicoResponseDTO(
         String especialidade,
         OffsetDateTime updatedAt,
         OffsetDateTime createdAt,
-        List<MedicoPaciente> vinculos
-) {
+        UsuarioResponseDTO usuario,
+        List<MedicoPacienteResponseDTO> vinculos
+) implements PerfilResponseDTO {
 }

@@ -1,6 +1,5 @@
 package theuxzn16.com.github.diabetiq.dto.response;
 
-import theuxzn16.com.github.diabetiq.entity.MedicoPaciente;
 import theuxzn16.com.github.diabetiq.enums.TipoDiabetes;
 
 import java.math.BigDecimal;
@@ -19,6 +18,6 @@ public record PacienteReponseDTO(
     BigDecimal glicemiaAlvoMax,
     OffsetDateTime updatedAt,
     OffsetDateTime createdAt,
-    List<MedicoPaciente> vinculos
-) {
+    List<MedicoPacienteResponseDTO> vinculos
+) implements PerfilResponseDTO {
 }

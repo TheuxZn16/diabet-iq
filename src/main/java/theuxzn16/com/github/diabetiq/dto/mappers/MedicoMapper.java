@@ -14,7 +14,8 @@ public class MedicoMapper {
                 medico.getEspecialidade(),
                 medico.getUpdatedAt(),
                 medico.getCreatedAt(),
-                medico.getVinculos()
+                UsuarioMapper.toDto(medico.getUsuario()),
+                MedicoPacienteMapper.toDtos(medico.getVinculos())
         );
     }
 
