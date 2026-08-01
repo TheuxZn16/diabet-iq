@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "pacientes")
-public class Paciente {
+public class Paciente extends AuditoriaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", updatable = false, nullable = false)
@@ -43,14 +43,6 @@ public class Paciente {
 
     @Column(name = "glicemia_alvo_max", nullable = false, precision = 5, scale = 2)
     private BigDecimal glicemiaAlvoMax = BigDecimal.valueOf(180);
-
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private OffsetDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
-    private OffsetDateTime updatedAt;
 
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MedicoPaciente> vinculos = new ArrayList<>();
@@ -126,14 +118,6 @@ public class Paciente {
 
     public void setGlicemiaAlvoMax(BigDecimal glicemiaAlvoMax) {
         this.glicemiaAlvoMax = glicemiaAlvoMax;
-    }
-
-    public OffsetDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public OffsetDateTime getUpdatedAt() {
-        return updatedAt;
     }
 
     public List<MedicoPaciente> getVinculos() {
