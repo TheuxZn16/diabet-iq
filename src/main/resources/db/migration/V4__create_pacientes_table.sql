@@ -14,6 +14,4 @@ CREATE TABLE pacientes (
     CONSTRAINT ck_pacientes_alvo CHECK (glicemia_alvo_max > glicemia_alvo_min)
 );
 
-CREATE TRIGGER trg_pacientes_updated_at
-BEFORE UPDATE ON pacientes
-FOR EACH ROW EXECUTE FUNCTION fn_atualizar_updated_at();
+

@@ -11,6 +11,3 @@ CREATE TABLE medicos (
 
 CREATE INDEX idx_medicos_crm ON medicos(crm);
 
-CREATE TRIGGER trg_medicos_updated_at
-BEFORE UPDATE ON medicos
-FOR EACH ROW EXECUTE FUNCTION fn_atualizar_updated_at();

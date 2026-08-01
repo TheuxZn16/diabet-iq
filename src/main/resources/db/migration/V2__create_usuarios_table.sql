@@ -12,6 +12,3 @@ CREATE TABLE usuarios (
 CREATE INDEX idx_usuarios_email ON usuarios(email);
 CREATE INDEX idx_usuarios_tipo_usuario ON usuarios(tipo_usuario);
 
-CREATE TRIGGER trg_usuarios_updated_at
-BEFORE UPDATE ON usuarios
-FOR EACH ROW EXECUTE FUNCTION fn_atualizar_updated_at();
