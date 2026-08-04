@@ -1,7 +1,6 @@
 package theuxzn16.com.github.diabetiq.dto.mappers;
 
 import theuxzn16.com.github.diabetiq.dto.response.MedicoPacienteResponseDTO;
-import theuxzn16.com.github.diabetiq.entity.Medico;
 import theuxzn16.com.github.diabetiq.entity.MedicoPaciente;
 
 import java.util.ArrayList;
@@ -19,6 +18,10 @@ public class MedicoPacienteMapper {
     public static MedicoPacienteResponseDTO toDto(MedicoPaciente medicoPaciente){
         return new MedicoPacienteResponseDTO(
                 medicoPaciente.getId(),
+                medicoPaciente.getMedico().getUsuario().getNome(),
+                medicoPaciente.getPaciente().getUsuario().getNome(),
+                TimeMapper.toTimeZone(medicoPaciente.getDataVinculo()),
+                TimeMapper.toTimeZone(medicoPaciente.getDataEncerramento()),
                 medicoPaciente.getAtivo()
         );
     }

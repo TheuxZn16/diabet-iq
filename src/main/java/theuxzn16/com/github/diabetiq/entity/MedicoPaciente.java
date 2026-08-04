@@ -3,6 +3,7 @@ package theuxzn16.com.github.diabetiq.entity;
 import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -24,7 +25,7 @@ public class MedicoPaciente {
     private Paciente paciente;
 
     @Column(name = "data_vinculo", nullable = false)
-    private OffsetDateTime dataVinculo = OffsetDateTime.now();
+    private OffsetDateTime dataVinculo;
 
     @Column(name = "data_encerramento")
     private OffsetDateTime dataEncerramento;
@@ -35,12 +36,9 @@ public class MedicoPaciente {
     public MedicoPaciente() {
     }
 
-    public MedicoPaciente(Medico medico, Paciente paciente, OffsetDateTime dataVinculo, OffsetDateTime dataEncerramento, Boolean ativo) {
+    public MedicoPaciente(Medico medico, Paciente paciente) {
         this.medico = medico;
         this.paciente = paciente;
-        this.dataVinculo = dataVinculo;
-        this.dataEncerramento = dataEncerramento;
-        this.ativo = ativo;
     }
 
     public UUID getId() {
@@ -85,6 +83,11 @@ public class MedicoPaciente {
 
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.dataVinculo = OffsetDateTime.now(ZoneOffset.of("-03:00"));
     }
 
     @Override

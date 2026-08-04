@@ -15,8 +15,8 @@ public class PacienteMapper {
                 paciente.getAlturaCm(),
                 paciente.getGlicemiaAlvoMin(),
                 paciente.getGlicemiaAlvoMax(),
-                paciente.getUpdatedAt(),
-                paciente.getCreatedAt(),
+                TimeMapper.toTimeZone(paciente.getUpdatedAt()),
+                TimeMapper.toTimeZone(paciente.getCreatedAt()),
                 UsuarioMapper.toDto(paciente.getUsuario()),
                 MedicoPacienteMapper.toDtos(paciente.getVinculos())
         );

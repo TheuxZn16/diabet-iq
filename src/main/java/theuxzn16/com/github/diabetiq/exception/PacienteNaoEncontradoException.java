@@ -9,4 +9,8 @@ public class PacienteNaoEncontradoException extends BusinessException {
     public PacienteNaoEncontradoException(UUID id) {
         super("Paciente com id '%s' não encontrado".formatted(id), HttpStatus.NOT_FOUND);
     }
+
+    public PacienteNaoEncontradoException(String email) {
+        super("Paciente com id '%s' não encontrado".formatted(email), HttpStatus.NOT_FOUND);
+    }
 }

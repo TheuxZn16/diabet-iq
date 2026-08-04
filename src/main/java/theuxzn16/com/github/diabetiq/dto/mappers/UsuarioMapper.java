@@ -15,8 +15,8 @@ public class UsuarioMapper {
                 user.getNome(),
                 user.getTipoUsuario(),
                 user.getEmailVerificado(),
-                user.getUpdatedAt(),
-                user.getCreatedAt()
+                TimeMapper.toTimeZone(user.getUpdatedAt()),
+                TimeMapper.toTimeZone(user.getCreatedAt())
                 );
     }
 
