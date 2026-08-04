@@ -3,9 +3,9 @@ spring:
     name: diabet-iq
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/diabet-iq
-    username: postgres
-    password: 123
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
