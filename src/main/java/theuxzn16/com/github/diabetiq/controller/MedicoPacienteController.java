@@ -3,6 +3,7 @@ package theuxzn16.com.github.diabetiq.controller;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class MedicoPacienteController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('MEDICO')")
     public ResponseEntity<MedicoPacienteResponseDTO> create(@Valid @RequestBody MedicoPacienteRequestDTO body){
         var response = medicoPacienteService.create(body);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
