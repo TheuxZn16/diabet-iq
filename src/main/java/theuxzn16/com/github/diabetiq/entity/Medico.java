@@ -12,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "medicos", uniqueConstraints = {
         @UniqueConstraint(name = "uk_medicos_crm_uf", columnNames = {"crm", "uf_crm"})})
-public class Medico {
+public class Medico extends AuditoriaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", updatable = false, nullable = false)
@@ -30,14 +30,6 @@ public class Medico {
 
     @Column(name = "especialidade", length = 100)
     private String especialidade;
-
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private OffsetDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
-    private OffsetDateTime updatedAt;
 
     @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MedicoPaciente> vinculos = new ArrayList<>();
@@ -86,14 +78,6 @@ public class Medico {
 
     public void setEspecialidade(String especialidade) {
         this.especialidade = especialidade;
-    }
-
-    public OffsetDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public OffsetDateTime getUpdatedAt() {
-        return updatedAt;
     }
 
     public List<MedicoPaciente> getVinculos() {

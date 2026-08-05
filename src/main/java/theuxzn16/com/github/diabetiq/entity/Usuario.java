@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario implements UserDetails {
+public class Usuario extends AuditoriaEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -38,14 +38,6 @@ public class Usuario implements UserDetails {
 
     @Column(name = "email_verificado", nullable = false)
     private Boolean emailVerificado = false;
-
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private OffsetDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
-    private OffsetDateTime updatedAt;
 
     public Usuario() {
     }
@@ -104,14 +96,6 @@ public class Usuario implements UserDetails {
 
     public void setEmailVerificado(Boolean emailVerificado) {
         this.emailVerificado = emailVerificado;
-    }
-
-    public OffsetDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public OffsetDateTime getUpdatedAt() {
-        return updatedAt;
     }
 
     @Override

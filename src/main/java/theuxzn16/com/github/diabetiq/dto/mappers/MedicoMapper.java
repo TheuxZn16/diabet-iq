@@ -12,9 +12,10 @@ public class MedicoMapper {
                 medico.getCrm(),
                 medico.getUfCrm(),
                 medico.getEspecialidade(),
-                medico.getUpdatedAt(),
-                medico.getCreatedAt(),
-                medico.getVinculos()
+                TimeMapper.toTimeZone(medico.getUpdatedAt()),
+                TimeMapper.toTimeZone(medico.getCreatedAt()),
+                UsuarioMapper.toDto(medico.getUsuario()),
+                MedicoPacienteMapper.toDtos(medico.getVinculos())
         );
     }
 
