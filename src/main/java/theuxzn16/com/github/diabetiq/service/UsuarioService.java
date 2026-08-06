@@ -1,17 +1,15 @@
 package theuxzn16.com.github.diabetiq.service;
 
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import theuxzn16.com.github.diabetiq.dto.mappers.MedicoMapper;
 import theuxzn16.com.github.diabetiq.dto.mappers.PacienteMapper;
 import theuxzn16.com.github.diabetiq.dto.response.PerfilResponseDTO;
+import theuxzn16.com.github.diabetiq.dto.resquest.UsuarioUpdateSenhaDTO;
 import theuxzn16.com.github.diabetiq.entity.Usuario;
-import theuxzn16.com.github.diabetiq.exception.AcessoNegadoException;
-import theuxzn16.com.github.diabetiq.exception.MedicoNaoEncontradoException;
-import theuxzn16.com.github.diabetiq.exception.PacienteNaoEncontradoException;
-import theuxzn16.com.github.diabetiq.exception.PerfilNaoEncontradoException;
-import theuxzn16.com.github.diabetiq.exception.UsuarioNaoEncontradoException;
+import theuxzn16.com.github.diabetiq.exception.*;
 import theuxzn16.com.github.diabetiq.repository.MedicoRepository;
 import theuxzn16.com.github.diabetiq.repository.PacienteRepository;
 import theuxzn16.com.github.diabetiq.repository.UsuarioRepository;
@@ -23,11 +21,13 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final MedicoRepository medicoRepository;
     private final PacienteRepository pacienteRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, MedicoRepository medicoRepository, PacienteRepository pacienteRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, MedicoRepository medicoRepository, PacienteRepository pacienteRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.medicoRepository = medicoRepository;
         this.pacienteRepository = pacienteRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -44,5 +44,18 @@ public class UsuarioService {
     @Transactional
     public void delete(UUID id){
         usuarioRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void updatePassword(UUID id, UsuarioUpdateSenhaDTO body){
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradoException(id));
+
+        if(!passwordEncoder.matches(body.senhaAntiga(), usuario.getSenhaHash())){
+            throw new CredenciaisInvalidasException();
+        }
+
+        usuario.setSenhaHash(passwordEncoder.encode(body.senhaNova()));
+
+        usuarioRepository.save(usuario);
     }
 }

@@ -15,6 +15,8 @@ import theuxzn16.com.github.diabetiq.exception.*;
 import theuxzn16.com.github.diabetiq.repository.MedicoRepository;
 import theuxzn16.com.github.diabetiq.repository.UsuarioRepository;
 
+import java.util.UUID;
+
 @Service
 public class UsuarioMedicoService {
     private final UsuarioRepository usuarioRepository;
@@ -44,10 +46,9 @@ public class UsuarioMedicoService {
     }
 
     @Transactional
-    public MedicoResponseDTO update(UsuarioMedicoRequestDTO body) {
-        Usuario usuarioReq = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Usuario usuarioEntity = usuarioRepository.findById(usuarioReq.getId()).orElseThrow(() -> new UsuarioNaoEncontradoException(usuarioReq.getId()));
-        Medico medicoEntity = medicoRepository.findByUsuario_Id(usuarioReq.getId()).orElseThrow(() -> new MedicoNaoEncontradoException(usuarioReq.getId()));
+    public MedicoResponseDTO update(UsuarioMedicoRequestDTO body, UUID id) {
+        Usuario usuarioEntity = usuarioRepository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradoException(id));
+        Medico medicoEntity = medicoRepository.findByUsuario_Id(id).orElseThrow(() -> new MedicoNaoEncontradoException(id));
 
         if (!body.email().equalsIgnoreCase(usuarioEntity.getEmail())
                 && usuarioRepository.existsByEmail(body.email())) {
