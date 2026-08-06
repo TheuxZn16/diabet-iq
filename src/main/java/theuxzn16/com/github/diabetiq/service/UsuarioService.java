@@ -33,19 +33,16 @@ public class UsuarioService {
 
     @Transactional(readOnly = true)
     public PerfilResponseDTO findById(UUID id){
-        Usuario usuarioAutenticado = (Usuario) SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getPrincipal();
-        if (!usuarioAutenticado.getId().equals(id)) {
-            throw new AcessoNegadoException();
-        }
-
         Usuario user = usuarioRepository.findById(id).orElseThrow(() -> new UsuarioNaoEncontradoException(id));
         return switch (user.getTipoUsuario()){
             case MEDICO -> MedicoMapper.toDto(medicoRepository.findByUsuario_Id(id).orElseThrow(() -> new MedicoNaoEncontradoException(id)));
             case PACIENTE -> PacienteMapper.toDto(pacienteRepository.findByUsuario_Id(id).orElseThrow(() -> new PacienteNaoEncontradoException(id)));
             case ADMIN -> throw new PerfilNaoEncontradoException(id);
         };
+    }
+
+    @Transactional
+    public void delete(UUID id){
+        usuarioRepository.deleteById(id);
     }
 }

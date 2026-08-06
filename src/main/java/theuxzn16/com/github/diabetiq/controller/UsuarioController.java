@@ -2,10 +2,8 @@ package theuxzn16.com.github.diabetiq.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import theuxzn16.com.github.diabetiq.dto.response.PerfilResponseDTO;
 import theuxzn16.com.github.diabetiq.service.UsuarioService;
 
@@ -21,8 +19,16 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("#id == authentication.principal.id")
     public ResponseEntity<PerfilResponseDTO> findById(@PathVariable UUID id){
         PerfilResponseDTO perfil = service.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(perfil);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("#id == authentication.principal.id")
+    public ResponseEntity<?> deleteById(@PathVariable UUID id){
+        service.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
