@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import theuxzn16.com.github.diabetiq.entity.Usuario;
 import theuxzn16.com.github.diabetiq.exception.TokenInvalidoException;
 
 import java.io.IOException;
@@ -47,7 +48,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String email = jwtService.obterEmail(token);
             if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails usuario = usuarioDetailsService.loadUserByUsername(email);
-                if (jwtService.tokenValido(token, (theuxzn16.com.github.diabetiq.entity.Usuario) usuario)) {
+                if (usuario instanceof Usuario usuarioEntity
+                        && Boolean.TRUE.equals(usuarioEntity.getEmailVerificado())
+                        && jwtService.tokenValido(token, usuarioEntity)) {
                     UsernamePasswordAuthenticationToken autenticacao = new UsernamePasswordAuthenticationToken(
                             usuario, null, usuario.getAuthorities());
                     autenticacao.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

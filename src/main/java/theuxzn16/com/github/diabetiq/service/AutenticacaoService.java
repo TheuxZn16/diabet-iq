@@ -13,6 +13,7 @@ import theuxzn16.com.github.diabetiq.dto.response.TokenResponseDTO;
 import theuxzn16.com.github.diabetiq.entity.Usuario;
 import theuxzn16.com.github.diabetiq.entity.RefreshToken;
 import theuxzn16.com.github.diabetiq.exception.CredenciaisInvalidasException;
+import theuxzn16.com.github.diabetiq.exception.EmailNaoVerificadoException;
 import theuxzn16.com.github.diabetiq.exception.RefreshTokenInvalidoException;
 import theuxzn16.com.github.diabetiq.repository.RefreshTokenRepository;
 import theuxzn16.com.github.diabetiq.security.JwtService;
@@ -55,6 +56,7 @@ public class AutenticacaoService {
             Authentication authentication = authenticationManager.authenticate(
                     UsernamePasswordAuthenticationToken.unauthenticated(request.email(), request.senha()));
             Usuario usuario = (Usuario) authentication.getPrincipal();
+            validarEmailVerificado(usuario);
             return criarRespostaComTokens(usuario);
         } catch (BadCredentialsException ex) {
             throw new CredenciaisInvalidasException();
@@ -71,8 +73,15 @@ public class AutenticacaoService {
             throw new RefreshTokenInvalidoException();
         }
 
+        validarEmailVerificado(refreshToken.getUsuario());
         refreshToken.revogar();
         return criarRespostaComTokens(refreshToken.getUsuario());
+    }
+
+    private void validarEmailVerificado(Usuario usuario) {
+        if (!Boolean.TRUE.equals(usuario.getEmailVerificado())) {
+            throw new EmailNaoVerificadoException();
+        }
     }
 
     private TokenResponseDTO criarRespostaComTokens(Usuario usuario) {

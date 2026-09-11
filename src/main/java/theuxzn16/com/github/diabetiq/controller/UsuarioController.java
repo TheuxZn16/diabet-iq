@@ -40,4 +40,10 @@ public class UsuarioController {
         service.updatePassword(id, body);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @GetMapping("/verificar-email")
+    public ResponseEntity<Void> verificarEmail(@RequestParam String token) {
+        service.verificarEmail(token);
+        return ResponseEntity.noContent().build();
+    }
 }

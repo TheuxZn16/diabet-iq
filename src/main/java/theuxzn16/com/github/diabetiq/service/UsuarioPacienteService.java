@@ -25,11 +25,14 @@ public class UsuarioPacienteService {
     private final UsuarioRepository usuarioRepository;
     private final PacienteRepository pacienteRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UsuarioService usuarioService;
 
-    public UsuarioPacienteService(UsuarioRepository usuarioRepository, PacienteRepository pacienteRepository, PasswordEncoder passwordEncoder) {
+    public UsuarioPacienteService(UsuarioRepository usuarioRepository, PacienteRepository pacienteRepository, PasswordEncoder passwordEncoder,
+                                 UsuarioService usuarioService) {
         this.usuarioRepository = usuarioRepository;
         this.pacienteRepository = pacienteRepository;
         this.passwordEncoder = passwordEncoder;
+        this.usuarioService = usuarioService;
     }
 
     @Transactional
@@ -42,6 +45,7 @@ public class UsuarioPacienteService {
         userEntity.setSenhaHash(passwordEncoder.encode(body.senha()));
         var userSalvo = usuarioRepository.save(userEntity);
         pacienteRepository.save(PacienteMapper.toEntity(body, userSalvo));
+        usuarioService.enviarVerificacaoEmail(userSalvo);
         return UsuarioMapper.toDto(userSalvo);
     }
 
@@ -59,8 +63,13 @@ public class UsuarioPacienteService {
             throw new CredenciaisInvalidasException();
         }
 
+        boolean emailAlterado = !body.email().equalsIgnoreCase(usuarioEntity.getEmail());
         usuarioEntity.setNome(body.nome());
         usuarioEntity.setEmail(body.email());
+        if (emailAlterado) {
+            usuarioEntity.setEmailVerificado(false);
+            usuarioService.enviarVerificacaoEmail(usuarioEntity);
+        }
 
         pacienteEntity.setGlicemiaAlvoMin(body.glicemiaAlvoMin());
         pacienteEntity.setGlicemiaAlvoMax(body.glicemiaAlvoMax());
