@@ -7,8 +7,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import theuxzn16.com.github.diabetiq.dto.response.PerfilResponseDTO;
 import theuxzn16.com.github.diabetiq.dto.resquest.UsuarioUpdateSenhaDTO;
+import theuxzn16.com.github.diabetiq.exception.TokenVerificacaoEmailInvalidoException;
 import theuxzn16.com.github.diabetiq.service.UsuarioService;
 
+import java.net.URI;
 import java.util.UUID;
 
 @RestController
@@ -44,6 +46,6 @@ public class UsuarioController {
     @GetMapping("/verificar-email")
     public ResponseEntity<Void> verificarEmail(@RequestParam String token) {
         service.verificarEmail(token);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
