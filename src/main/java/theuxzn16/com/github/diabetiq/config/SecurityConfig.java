@@ -53,6 +53,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth
                                 .requestMatchers(HttpMethod.POST, "/api/v1/usuario/medico", "/api/v1/usuario/paciente", "/api/v1/auth/login", "/api/v1/auth/refresh").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/usuario/verificar-email").permitAll()
+                                .requestMatchers("/confirmacao-email.html", "/erro-confirmacao-email.html").permitAll()
                                 .requestMatchers("/", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**").permitAll()
                                 .anyRequest().authenticated()
                 )

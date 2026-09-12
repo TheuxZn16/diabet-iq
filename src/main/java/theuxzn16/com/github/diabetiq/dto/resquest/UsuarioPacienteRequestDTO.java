@@ -34,10 +34,12 @@ public record UsuarioPacienteRequestDTO(
         @NotNull(message = "O tipo de diabetes é obrigatório")
         TipoDiabetes tipoDiabetes,
 
+        @NotNull(message = "O peso é obrigatório")
         @DecimalMin(value = "1.0", message = "O peso deve ser maior que 0")
         @DecimalMax(value = "500.0", message = "O peso informado é inválido")
         BigDecimal pesoKg,
 
+        @NotNull(message = "A autura é obrigatória")
         @DecimalMin(value = "30.0", message = "A altura deve ser maior que 30 cm")
         @DecimalMax(value = "272.0", message = "A altura informada é inválida")
         BigDecimal alturaCm,
