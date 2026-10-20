@@ -1,0 +1,10 @@
+.git
+.idea
+.agents
+.codex
+target
+*.iml
+.env
+Dockerfile
+docker-compose.yaml
+README.md
